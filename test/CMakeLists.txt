@@ -46,8 +46,6 @@ file(GLOB SRCS *.cpp ../src/*.cpp)
 
 add_executable(testcommon ${SRCS})
 
-add_definitions(-DLWS_ENABLE_PROTOBUF)
-
 target_include_directories(testcommon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(testcommon PUBLIC ${source_dir})
 target_include_directories(testcommon PUBLIC "../src")
