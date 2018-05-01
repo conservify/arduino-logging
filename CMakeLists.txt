@@ -1,4 +1,6 @@
 project(arduino-logging)
 cmake_minimum_required(VERSION 2.6)
 
-add_subdirectory(examples/basic)
+enable_testing()
+
+add_subdirectory(test)
