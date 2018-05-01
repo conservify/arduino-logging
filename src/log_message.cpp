@@ -113,7 +113,7 @@ void logf(LogLevels level, const char *facility, const char *f, ...) {
     va_end(args);
 }
 
-void logfpln(const char *facility, const char *f, ...) {
+void loginfof(const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
     vlogf(LogLevels::INFO, facility, f, args);

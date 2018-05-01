@@ -41,7 +41,7 @@ void vlogf(LogLevels level, const char *facility, const char *f, va_list args);
 
 void logf(LogLevels level, const char *facility, const char *f, ...) __attribute__((format(printf, 3, 4)));
 
-void logfpln(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
+void loginfof(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
 
 #ifdef ARDUINO
 #include <Arduino.h>
