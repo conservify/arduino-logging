@@ -23,7 +23,22 @@ Stream *log_uart_get() {
     return log_uart;
 }
 #else
-static log_message_uptime_fn_t log_uptime_fn = always_zero;
+#include <time.h>
+
+static uint64_t epochMillis = 0;
+
+static uint32_t millis() {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+    auto now  = (uint64_t)ts.tv_sec * (uint64_t)1000 + (uint64_t)(ts.tv_nsec / 1000000L);
+    // This isn't "Correct" because this sets epoch to the time of the first call.
+    if (epochMillis == 0) {
+        epochMillis = now;
+    }
+    return (uint32_t)(now - epochMillis);
+}
+
+static log_message_uptime_fn_t log_uptime_fn = millis;
 #endif
 static log_message_time_fn_t log_time_fn = always_zero;
 
