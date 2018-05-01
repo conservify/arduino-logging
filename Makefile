@@ -1,5 +1,4 @@
-default: cmake
-	cd build && make
+default: cmake all test
 
 all: default
 
