@@ -75,14 +75,17 @@ public:
     }
 
 public:
-    LogStream operator<<(const char *s) {
-        auto ls = begin();
-        ls << s;
-        return ls;
+    LogStream begin() const;
+
+    LogStream begin(const char *facility) const;
+
+    LogStream operator() () {
+        return begin();
     }
 
-    LogStream begin();
-    LogStream begin(const char *facility);
+    LogStream operator() (const char *facility) {
+        return begin(facility);
+    }
 
 };
 

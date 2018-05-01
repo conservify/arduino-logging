@@ -26,11 +26,11 @@ LogStream& LogStream::printf(const char *f, ...) {
     return *this;
 }
 
-LogStream Logger::begin(const char *facility) {
+LogStream Logger::begin(const char *facility) const {
     return LogStream{ facility };
 }
 
-LogStream Logger::begin() {
+LogStream Logger::begin() const {
     return LogStream{ facility };
 }
 
