@@ -9,8 +9,8 @@
 
 class LogStream {
 private:
-    LogLevels level { LogLevels::INFO };
     const char *facility { "Root" };
+    LogLevels level { LogLevels::INFO };
     uint8_t message[ArdunioLoggingLineMax];
     uint32_t position{ 0 };
 

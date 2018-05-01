@@ -63,6 +63,8 @@ void log_raw(const LogMessage *m) {
 
     #ifdef ARDUINO
     log_uart->print(formatted);
+    #else
+    fprintf(stderr, "%s", formatted);
     #endif
 
     if (log_hook_fn != nullptr) {
