@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include <alogging.h>
+#include <alogging/alogging.h>
 
 class LoggingSuite : public ::testing::Test {
 protected:
