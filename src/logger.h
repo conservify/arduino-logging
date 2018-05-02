@@ -4,7 +4,9 @@
 #include <cstdint>
 #include <cstdarg>
 #include <cstddef>
-
+#ifndef ARDUINO
+#include <string>
+#endif
 #include "log_message.h"
 
 class LogStream {
@@ -47,6 +49,10 @@ public:
     #ifdef ARDUINO // Ick
     LogStream& operator<<(size_t i) {
         return printf("%d", i);
+    }
+    #else
+    LogStream& operator<<(std::string &v) {
+        return printf("%s", v.c_str());
     }
     #endif
 
