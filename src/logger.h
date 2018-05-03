@@ -5,6 +5,8 @@
 #include <cstdarg>
 #include <cstddef>
 #ifndef ARDUINO
+#undef min
+#undef max
 #include <string>
 #endif
 #include "log_message.h"
