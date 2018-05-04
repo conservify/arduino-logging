@@ -35,6 +35,13 @@ LogStream Logger::begin() const {
 }
 
 LogStream::~LogStream() {
-    logf(LogLevels::INFO, facility, "%s", message);
+    flush();
 }
 
+LogStream& LogStream::flush() {
+    if (position > 0) {
+        logf(LogLevels::INFO, facility, "%s", message);
+        position = 0;
+    }
+    return *this;
+}

@@ -30,6 +30,7 @@ public:
 public:
     LogStream& printf(const char *f, ...);
     LogStream& print(const char *str);
+    LogStream& flush();
 
 public:
     LogStream& operator<<(uint8_t i) {
