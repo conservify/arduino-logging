@@ -75,8 +75,7 @@ TEST_F(LoggingSuite, EmptyMessage) {
 
     logger() << "";
 
-    EXPECT_EQ(messages.size(), 1);
-    EXPECT_EQ(messages[0], "000000 Root                      \n");
+    EXPECT_EQ(messages.size(), 0);
 }
 
 TEST_F(LoggingSuite, TooLongMessage) {
