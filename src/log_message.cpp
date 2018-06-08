@@ -62,7 +62,7 @@ void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t
 }
 
 void log_raw(const LogMessage *m) {
-    char formatted[ArdunioLoggingLineMax * 2];
+    char formatted[ArduinoLoggingLineMax * 2];
     auto pos = snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
     auto len = strlen(m->message);
     memcpy(formatted + pos, m->message, len);
@@ -92,8 +92,8 @@ void log_raw(const LogMessage *m) {
 }
 
 void vlogf(LogLevels level, const char *facility, const char *f, va_list args) {
-    char message[ArdunioLoggingLineMax];
-    vsnprintf(message, ArdunioLoggingLineMax, f, args);
+    char message[ArduinoLoggingLineMax];
+    vsnprintf(message, ArduinoLoggingLineMax, f, args);
 
     LogMessage m = {
         .uptime = log_uptime_fn(),

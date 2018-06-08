@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <cstdarg>
 
-constexpr size_t ArdunioLoggingLineMax = 255;
+constexpr size_t ArduinoLoggingLineMax = 255;
 
 enum class LogLevels {
     TRACE,
