@@ -1,7 +1,9 @@
 @Library('conservify') _
 
+conservifyProperties()
+
 timestamps {
     node () {
-        conservifyBuild(name: 'arduino-logging', repository: 'https://github.com/Conservify/arduino-logging.git')
+        conservifyBuild(name: 'arduino-logging')
     }
 }
