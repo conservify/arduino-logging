@@ -1,7 +1,7 @@
 #ifndef ALOGGING_LOGGER_H_INCLUDED
 #define ALOGGING_LOGGER_H_INCLUDED
 
-#include <cstdint>
+#include <cinttypes>
 #include <cstdarg>
 #include <cstddef>
 #ifndef ARDUINO
@@ -28,7 +28,7 @@ public:
     ~LogStream();
 
 public:
-    LogStream& printf(const char *f, ...);
+    LogStream& printf(const char *f, ...) __attribute__((format(printf, 2, 3)));
     LogStream& print(const char *str);
     LogStream& flush();
 
@@ -38,7 +38,7 @@ public:
     }
 
     LogStream& operator<<(uint32_t i) {
-        return printf("%lu", i);
+        return printf("%" PRIu32, i);
     }
 
     LogStream& operator<<(int8_t i) {
@@ -46,7 +46,7 @@ public:
     }
 
     LogStream& operator<<(int32_t i) {
-        return printf("%d", i);
+        return printf("%" PRId32, i);
     }
 
     #ifdef ARDUINO // Ick
@@ -102,35 +102,35 @@ public:
 template<const char *Name>
 class SimpleLog {
 public:
-    static void log(const char *f, ...) {
+    static void log(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
         vlogf(LogLevels::INFO, Name, f, args);
         va_end(args);
     }
 
-    static void info(const char *f, ...) {
+    static void info(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
         vlogf(LogLevels::INFO, Name, f, args);
         va_end(args);
     }
 
-    static void trace(const char *f, ...) {
+    static void trace(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
         vlogf(LogLevels::TRACE, Name, f, args);
         va_end(args);
     }
 
-    static void warn(const char *f, ...) {
+    static void warn(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
         vlogf(LogLevels::WARN, Name, f, args);
         va_end(args);
     }
 
-    static void error(const char *f, ...) {
+    static void error(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
         vlogf(LogLevels::ERROR, Name, f, args);
