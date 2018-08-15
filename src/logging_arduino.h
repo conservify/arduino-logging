@@ -21,10 +21,6 @@ void log_uart_set(Stream &standardOut);
 
 Stream *log_uart_get();
 
-constexpr char endl = '\n';
-
-using ostreamtype = LogStream;
-
 #endif // defined(ARDUINO)
 
 #endif // ALOGGING_LOGGING_ARDUINO_H_INCLUDED

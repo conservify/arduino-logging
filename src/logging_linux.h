@@ -8,10 +8,6 @@
 
 uint32_t millis();
 
-constexpr char endl = '\n';
-
-using ostreamtype = ::std::ostream;
-
 #endif // !ARDUINO
 
 #endif // ALOGGING_LOGGING_LINUX_H_INCLUDED

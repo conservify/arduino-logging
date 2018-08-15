@@ -1,6 +1,10 @@
 #include "logging.h"
 #include "platform.h"
 
+ostreamtype sdebug() {
+    return LogStream{ };
+}
+
 extern "C" {
 
 void __assert_func(const char *file, int32_t line, const char *func, const char *failedexpr) {

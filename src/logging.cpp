@@ -68,13 +68,12 @@ void vlogf(LogLevels level, const char *facility, const char *f, va_list args) {
     char message[ArduinoLoggingLineMax];
     vsnprintf(message, ArduinoLoggingLineMax, f, args);
 
-    LogMessage m = {
-        .uptime = log_uptime_fn(),
-        .time = log_time_fn(),
-        .level = (uint8_t)level,
-        .facility = facility,
-        .message = message,
-    };
+    LogMessage m;
+    m.uptime = log_uptime_fn();
+    m.time = log_time_fn();
+    m.level = (uint8_t)level;
+    m.facility = facility;
+    m.message = message;
 
     log_raw(&m);
 }

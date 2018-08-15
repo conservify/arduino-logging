@@ -90,3 +90,7 @@ TEST_F(LoggingSuite, TooLongMessage) {
     EXPECT_EQ(messages.size(), 1);
     EXPECT_EQ(messages[0], "000000 Root                      JacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJac\n");
 }
+
+TEST_F(LoggingSuite, Sdebug) {
+    sdebug() << "Hello, world!" << endl;
+}

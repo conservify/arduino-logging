@@ -65,11 +65,11 @@ public:
         return printf("%" PRId64, i);
     }
 
-    #ifdef ARDUINO // Ick
     LogStream& operator<<(size_t i) {
-        return printf("%d", i);
+        return printf("%zd", i);
     }
-    #else
+
+    #if !defined(ARDUINO)
     LogStream& operator<<(std::string &v) {
         return printf("%s", v.c_str());
     }
