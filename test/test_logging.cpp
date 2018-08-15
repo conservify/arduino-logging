@@ -94,3 +94,6 @@ TEST_F(LoggingSuite, TooLongMessage) {
 TEST_F(LoggingSuite, Sdebug) {
     sdebug() << "Hello, world!" << endl;
 }
+
+TEST_F(LoggingSuite, AssertFail) {
+}
