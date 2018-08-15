@@ -42,14 +42,17 @@ void log_raw(const LogMessage *m) {
     auto len = strlen(m->message);
     memcpy(formatted + pos, m->message, len);
     pos += len;
-    #if defined(ARDUINO_LOGGING_INCLUDE_CR)
-    formatted[pos + 0] = '\r';
-    formatted[pos + 1] = '\n';
-    formatted[pos + 2] = 0;
-    #else
-    formatted[pos + 0] = '\n';
-    formatted[pos + 1] = 0;
-    #endif // defined(ARDUINO_LOGGING_INCLUDE_CR)
+
+    if (formatted[pos - 1] != '\r' && formatted[pos - 1] != '\n') {
+        #if defined(ARDUINO_LOGGING_INCLUDE_CR)
+        formatted[pos++] = '\r';
+        formatted[pos++] = '\n';
+        #else
+        formatted[pos++] = '\n';
+        #endif // defined(ARDUINO_LOGGING_INCLUDE_CR)
+    }
+
+    formatted[pos] = 0;
 
     if (write_fn != nullptr) {
         write_fn(m, formatted);
