@@ -42,9 +42,11 @@ public:
         return printf("%" PRIu32, i);
     }
 
+    #if !defined(__linux__)
     LogStream& operator<<(uint64_t i) {
         return printf("%" PRIu64, i);
     }
+    #endif
 
     LogStream& operator<<(int8_t i) {
         return printf("%d", i);
