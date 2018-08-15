@@ -3,6 +3,8 @@
 
 #if defined(ARDUINO)
 
+#include "log_stream.h"
+
 class Stream;
 
 #ifdef __cplusplus
@@ -14,8 +16,6 @@ uint32_t millis();
 #ifdef __cplusplus
 }
 #endif
-
-#include "log_stream.h"
 
 void log_uart_set(Stream &standardOut);
 

@@ -17,17 +17,37 @@ Stream *log_uart_get() {
     return log_uart;
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 size_t platform_write_fn(const LogMessage *m, const char *line) {
     log_uart->print(line);
     return 0;
 }
 
+#ifdef __cplusplus
+}
+#endif
+
 #else
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 size_t platform_write_fn(const LogMessage *m, const char *line) {
     return 0;
 }
 
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 void alogging_platform_abort() {
@@ -35,5 +55,9 @@ void alogging_platform_abort() {
         delay(100);
     }
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // defined(ARDUINO)

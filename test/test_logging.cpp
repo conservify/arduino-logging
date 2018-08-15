@@ -29,18 +29,18 @@ void LoggingSuite::TearDown() {
 };
 
 TEST_F(LoggingSuite, Simple) {
-    logf(LogLevels::INFO, "Simple", "Hello World");
+    alogf(LogLevels::INFO, "Simple", "Hello World");
 
     EXPECT_EQ(messages.size(), 1);
     EXPECT_EQ(messages[0], "000000 Simple                    Hello World\n");
 }
 
 TEST_F(LoggingSuite, DisableHook) {
-    logf(LogLevels::INFO, "Simple", "Hello World");
+    alogf(LogLevels::INFO, "Simple", "Hello World");
 
     log_configure_hook(false);
 
-    logf(LogLevels::INFO, "Simple", "Bye World");
+    alogf(LogLevels::INFO, "Simple", "Bye World");
 
     EXPECT_EQ(messages.size(), 1);
     EXPECT_EQ(messages[0], "000000 Simple                    Hello World\n");

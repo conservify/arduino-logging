@@ -2,6 +2,7 @@
 #include <cstring>
 
 #include "log_stream.h"
+#include "logging.h"
 
 LogStream& LogStream::print(const char *str) {
     #if !defined(ARDUINO_LOGGING_DISABLE)
@@ -45,7 +46,7 @@ LogStream::~LogStream() {
 LogStream& LogStream::flush() {
     #if !defined(ARDUINO_LOGGING_DISABLE)
     if (position_ > 0) {
-        logf(LogLevels::INFO, facility_, "%s", message_);
+        alogf(LogLevels::INFO, facility_, "%s", message_);
         position_ = 0;
     }
     #endif

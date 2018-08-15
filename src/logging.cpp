@@ -1,6 +1,10 @@
 #include "logging.h"
 #include "platform.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern size_t platform_write_fn(const LogMessage *m, const char *line);
 
 static uint32_t always_zero();
@@ -67,7 +71,7 @@ void log_raw(const LogMessage *m) {
     }
 }
 
-void vlogf(LogLevels level, const char *facility, const char *f, va_list args) {
+void valogf(LogLevels level, const char *facility, const char *f, va_list args) {
     char message[ArduinoLoggingLineMax];
     vsnprintf(message, ArduinoLoggingLineMax, f, args);
 
@@ -81,30 +85,35 @@ void vlogf(LogLevels level, const char *facility, const char *f, va_list args) {
     log_raw(&m);
 }
 
-void logf(LogLevels level, const char *facility, const char *f, ...) {
+void alogf(LogLevels level, const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
-    vlogf(level, facility, f, args);
+    valogf(level, facility, f, args);
     va_end(args);
 }
 
 void logerrorf(const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
-    vlogf(LogLevels::ERROR, facility, f, args);
+    valogf(LogLevels::ERROR, facility, f, args);
     va_end(args);
 }
 
 void logtracef(const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
-    vlogf(LogLevels::TRACE, facility, f, args);
+    valogf(LogLevels::TRACE, facility, f, args);
     va_end(args);
 }
 
 void loginfof(const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
-    vlogf(LogLevels::INFO, facility, f, args);
+    valogf(LogLevels::INFO, facility, f, args);
     va_end(args);
 }
+
+#ifdef __cplusplus
+}
+#endif
+

@@ -5,7 +5,15 @@
 #include "logging_arduino.h"
 #include "logging_linux.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void alogging_platform_abort();
+
+#ifdef __cplusplus
+}
+#endif
 
 constexpr char endl = '\n';
 

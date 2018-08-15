@@ -6,7 +6,15 @@
 #include <cinttypes>
 #include <ostream>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 uint32_t millis();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // !ARDUINO
 

@@ -10,35 +10,35 @@ public:
     static void log(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
-        vlogf(LogLevels::INFO, Name, f, args);
+        valogf(LogLevels::INFO, Name, f, args);
         va_end(args);
     }
 
     static void info(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
-        vlogf(LogLevels::INFO, Name, f, args);
+        valogf(LogLevels::INFO, Name, f, args);
         va_end(args);
     }
 
     static void trace(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
-        vlogf(LogLevels::TRACE, Name, f, args);
+        valogf(LogLevels::TRACE, Name, f, args);
         va_end(args);
     }
 
     static void warn(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
-        vlogf(LogLevels::WARN, Name, f, args);
+        valogf(LogLevels::WARN, Name, f, args);
         va_end(args);
     }
 
     static void error(const char *f, ...) __attribute__((format(printf, 1, 2))) {
         va_list args;
         va_start(args, f);
-        vlogf(LogLevels::ERROR, Name, f, args);
+        valogf(LogLevels::ERROR, Name, f, args);
         va_end(args);
     }
 

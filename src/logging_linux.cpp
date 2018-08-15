@@ -9,6 +9,10 @@
 
 static uint64_t epoch = 0;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 uint32_t millis() {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
@@ -28,5 +32,9 @@ size_t platform_write_fn(const LogMessage *m, const char *line) {
 void alogging_platform_abort() {
     abort();
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // !defined(ARDUINO)
