@@ -1,28 +1,25 @@
 #ifndef ALOGGING_LOG_STREAM_H_INCLUDED
 #define ALOGGING_LOG_STREAM_H_INCLUDED
 
-#include <cinttypes>
-#include <cstdarg>
-#include <cstddef>
-
 #include "logging.h"
 
-#ifndef ARDUINO
+#if defined(ARDUINO)
+#else // defined(ARDUINO)
 #include <string>
-#endif
+#endif // defined(ARDUINO)
 
 class LogStream {
 private:
-    const char *facility { "Root" };
-    LogLevels level { LogLevels::INFO };
-    uint8_t message[ArduinoLoggingLineMax];
-    uint32_t position{ 0 };
+    const char *facility_{ "Root" };
+    LogLevels level_{ LogLevels::INFO };
+    uint8_t message_[ArduinoLoggingLineMax];
+    uint32_t position_{ 0 };
 
 public:
     LogStream() {
     }
 
-    LogStream(const char *facility, LogLevels level = LogLevels::INFO) : facility(facility), level(level) {
+    LogStream(const char *facility, LogLevels level = LogLevels::INFO) : facility_(facility), level_(level) {
     }
 
     ~LogStream();
@@ -94,13 +91,13 @@ public:
 
 class Logger {
 private:
-    const char *facility{ "Root" };
+    const char *facility_{ "Root" };
 
 public:
     Logger() {
     }
 
-    Logger(const char *facility) : facility(facility) {
+    Logger(const char *facility) : facility_(facility) {
     }
 
 public:

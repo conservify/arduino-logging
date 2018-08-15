@@ -1,16 +1,16 @@
 #include <cstdio>
 #include <cstring>
 
-#include "logger.h"
+#include "log_stream.h"
 
 LogStream& LogStream::print(const char *str) {
     #if !defined(ARDUINO_LOGGING_DISABLE)
-    auto remaining = sizeof(message) - position - 1;
+    auto remaining = sizeof(message_) - position_ - 1;
     auto length = strlen(str);
     auto copying = length > remaining ? remaining : length;
-    memcpy(message + position, str, copying);
-    position += copying;
-    message[position] = 0;
+    memcpy(message_ + position_, str, copying);
+    position_ += copying;
+    message_[position_] = 0;
     #endif
     return *this;
 }
@@ -19,11 +19,11 @@ LogStream& LogStream::printf(const char *f, ...) {
     #if !defined(ARDUINO_LOGGING_DISABLE)
     va_list args;
     va_start(args, f);
-    auto remaining = (int32_t)(sizeof(message) - position - 1);
+    auto remaining = (int32_t)(sizeof(message_) - position_ - 1);
     if (remaining > 0) {
-        auto appended = vsnprintf((char *)(message + position), remaining, f, args);
-        position += appended;
-        message[position] = 0;
+        auto appended = vsnprintf((char *)(message_ + position_), remaining, f, args);
+        position_ += appended;
+        message_[position_] = 0;
     }
     va_end(args);
     #endif
@@ -35,7 +35,7 @@ LogStream Logger::begin(const char *facility) const {
 }
 
 LogStream Logger::begin() const {
-    return LogStream{ facility };
+    return LogStream{ facility_ };
 }
 
 LogStream::~LogStream() {
@@ -44,9 +44,9 @@ LogStream::~LogStream() {
 
 LogStream& LogStream::flush() {
     #if !defined(ARDUINO_LOGGING_DISABLE)
-    if (position > 0) {
-        logf(LogLevels::INFO, facility, "%s", message);
-        position = 0;
+    if (position_ > 0) {
+        logf(LogLevels::INFO, facility_, "%s", message_);
+        position_ = 0;
     }
     #endif
     return *this;
