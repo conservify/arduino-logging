@@ -4,16 +4,19 @@
 #include "logger.h"
 
 LogStream& LogStream::print(const char *str) {
+    #if !defined(ARDUINO_LOGGING_DISABLE)
     auto remaining = sizeof(message) - position - 1;
     auto length = strlen(str);
     auto copying = length > remaining ? remaining : length;
     memcpy(message + position, str, copying);
     position += copying;
     message[position] = 0;
+    #endif
     return *this;
 }
 
 LogStream& LogStream::printf(const char *f, ...) {
+    #if !defined(ARDUINO_LOGGING_DISABLE)
     va_list args;
     va_start(args, f);
     auto remaining = (int32_t)(sizeof(message) - position - 1);
@@ -23,6 +26,7 @@ LogStream& LogStream::printf(const char *f, ...) {
         message[position] = 0;
     }
     va_end(args);
+    #endif
     return *this;
 }
 
@@ -39,9 +43,11 @@ LogStream::~LogStream() {
 }
 
 LogStream& LogStream::flush() {
+    #if !defined(ARDUINO_LOGGING_DISABLE)
     if (position > 0) {
         logf(LogLevels::INFO, facility, "%s", message);
         position = 0;
     }
+    #endif
     return *this;
 }
