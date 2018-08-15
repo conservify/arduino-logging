@@ -1,13 +1,15 @@
-#ifndef ALOGGING_LOGGER_H_INCLUDED
-#define ALOGGING_LOGGER_H_INCLUDED
+#ifndef ALOGGING_LOG_STREAM_H_INCLUDED
+#define ALOGGING_LOG_STREAM_H_INCLUDED
 
-#if defined(ARDUINO)
-#include <Arduino.h>
-#else // defined(ARDUINO)
-#include <string>
-#endif // defined(ARDUINO)
+#include <cinttypes>
+#include <cstdarg>
+#include <cstddef>
 
 #include "logging.h"
+
+#ifndef ARDUINO
+#include <string>
+#endif
 
 class LogStream {
 private:
@@ -96,4 +98,4 @@ public:
 
 };
 
-#endif // ALOGGING_LOGGER_H_INCLUDED
+#endif

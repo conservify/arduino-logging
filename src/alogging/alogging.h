@@ -1,4 +1,9 @@
-#pragma once
+#ifndef ALOGGING_ALOGGING_H_INCLUDED
+#define ALOGGING_ALOGGING_H_INCLUDED
 
-#include "../logger.h"
-#include "../log_message.h"
+#include "../simple_log.h"
+#include "../log_stream.h"
+#include "../logging_linux.h"
+#include "../logging_arduino.h"
+
+#endif // ALOGGING_ALOGGING_H_INCLUDED

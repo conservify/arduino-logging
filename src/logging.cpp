@@ -1,52 +1,27 @@
-#include "log_message.h"
+#include "logging.h"
+#include "platform.h"
 
-#include <cstring>
-#include <cstdio>
-#include <cinttypes>
+extern size_t platform_write_fn(const LogMessage *m, const char *line);
 
 static uint32_t always_zero();
+
+static log_message_uptime_fn_t log_uptime_fn = millis;
+static log_message_time_fn_t log_time_fn = always_zero;
+static log_message_write_fn_t write_fn = platform_write_fn;
 
 static log_message_hook_fn_t log_hook_fn = nullptr;
 static void *log_hook_arg = nullptr;
 static bool log_hook_enabled = false;
 
-#ifdef ARDUINO
-static Stream *log_uart = &Serial;
-
-static log_message_uptime_fn_t log_uptime_fn = millis;
-
-void log_uart_set(Stream &standardOut) {
-    log_uart = &standardOut;
-}
-
-Stream *log_uart_get() {
-    return log_uart;
-}
-#else
-#include <time.h>
-
-static uint64_t epochMillis = 0;
-
-static uint32_t millis() {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
-    auto now  = (uint64_t)ts.tv_sec * (uint64_t)1000 + (uint64_t)(ts.tv_nsec / 1000000L);
-    // This isn't "Correct" because this sets epoch to the time of the first call.
-    if (epochMillis == 0) {
-        epochMillis = now;
-    }
-    return (uint32_t)(now - epochMillis);
-}
-
-static log_message_uptime_fn_t log_uptime_fn = millis;
-#endif
-static log_message_time_fn_t log_time_fn = always_zero;
-
 static uint32_t always_zero() {
     return 0;
 }
 
-void log_add_hook(log_message_hook_fn_t hook, void *arg) {
+void log_configure_writer(log_message_write_fn_t new_fn) {
+    write_fn = new_fn;
+}
+
+void log_configure_hook_register(log_message_hook_fn_t hook, void *arg) {
     log_hook_fn = hook;
     log_hook_arg = arg;
     log_hook_enabled = true;
@@ -67,20 +42,18 @@ void log_raw(const LogMessage *m) {
     auto len = strlen(m->message);
     memcpy(formatted + pos, m->message, len);
     pos += len;
-    #if ARDUINO_LOGGING_INCLUDE_CR
+    #if defined(ARDUINO_LOGGING_INCLUDE_CR)
     formatted[pos + 0] = '\r';
     formatted[pos + 1] = '\n';
     formatted[pos + 2] = 0;
     #else
     formatted[pos + 0] = '\n';
     formatted[pos + 1] = 0;
-    #endif
+    #endif // defined(ARDUINO_LOGGING_INCLUDE_CR)
 
-    #ifdef ARDUINO
-    log_uart->print(formatted);
-    #else
-    fprintf(stderr, "%s", formatted);
-    #endif
+    if (write_fn != nullptr) {
+        write_fn(m, formatted);
+    }
 
     if (log_hook_fn != nullptr) {
         if (log_hook_enabled) {

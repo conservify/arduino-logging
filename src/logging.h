@@ -1,9 +1,11 @@
-#ifndef ALOGGING_LOG_MESSAGE_H_INCLUDED
-#define ALOGGING_LOG_MESSAGE_H_INCLUDED
+#ifndef ALOGGING_LOGGING_H_INCLUDED
+#define ALOGGING_LOGGING_H_INCLUDED
 
-#include <cstdint>
+#include <cinttypes>
+#include <cstring>
 #include <cstddef>
 #include <cstdarg>
+#include <cstdio>
 
 constexpr size_t ArduinoLoggingLineMax = 255;
 
@@ -15,13 +17,15 @@ enum class LogLevels {
     ERROR,
 };
 
-struct LogMessage {
+typedef struct LogMessage {
     uint32_t uptime;
     uint32_t time;
     uint8_t level;
     const char *facility;
     const char *message;
-};
+} LogMessage;
+
+typedef size_t (*log_message_write_fn_t)(const LogMessage *m, const char *line);
 
 typedef size_t (*log_message_hook_fn_t)(const LogMessage *m, const char *formatted, void *arg);
 
@@ -29,7 +33,9 @@ typedef uint32_t (*log_message_time_fn_t)();
 
 typedef uint32_t (*log_message_uptime_fn_t)();
 
-void log_add_hook(log_message_hook_fn_t hook, void *arg);
+void log_configure_writer(log_message_write_fn_t writer);
+
+void log_configure_hook_register(log_message_hook_fn_t hook, void *arg);
 
 void log_configure_hook(bool enabled);
 
@@ -44,13 +50,5 @@ void logf(LogLevels level, const char *facility, const char *f, ...) __attribute
 void logtracef(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
 
 void loginfof(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
-
-#ifdef ARDUINO
-#include <Arduino.h>
-
-void log_uart_set(Stream &standardOut);
-
-Stream *log_uart_get();
-#endif
 
 #endif

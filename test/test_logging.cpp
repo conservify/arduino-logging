@@ -20,12 +20,12 @@ static size_t LogMessageHook(const LogMessage *m, const char *formatted, void *a
 }
 
 void LoggingSuite::SetUp() {
-    log_add_hook(LogMessageHook, (void *)&messages);
+    log_configure_hook_register(LogMessageHook, (void *)&messages);
     log_configure_time(nullptr, nullptr);
 };
 
 void LoggingSuite::TearDown() {
-    log_add_hook(nullptr, nullptr);
+    log_configure_hook_register(nullptr, nullptr);
 };
 
 TEST_F(LoggingSuite, Simple) {
