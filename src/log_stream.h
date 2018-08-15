@@ -37,16 +37,32 @@ public:
         return printf("%d", i);
     }
 
+    LogStream& operator<<(uint16_t i) {
+        return printf("%d", i);
+    }
+
     LogStream& operator<<(uint32_t i) {
         return printf("%" PRIu32, i);
+    }
+
+    LogStream& operator<<(uint64_t i) {
+        return printf("%" PRIu64, i);
     }
 
     LogStream& operator<<(int8_t i) {
         return printf("%d", i);
     }
 
+    LogStream& operator<<(int16_t i) {
+        return printf("%d", i);
+    }
+
     LogStream& operator<<(int32_t i) {
         return printf("%" PRId32, i);
+    }
+
+    LogStream& operator<<(int64_t i) {
+        return printf("%" PRId64, i);
     }
 
     #ifdef ARDUINO // Ick
@@ -65,6 +81,10 @@ public:
 
     LogStream& operator<<(float v) {
         return printf("%f", v);
+    }
+
+    LogStream& operator<<(const char c) {
+        return printf("%c", c);
     }
 
     LogStream& operator<<(const char *s) {

@@ -1,6 +1,7 @@
 #if !defined(ARDUINO)
 
 #include <cstdio>
+#include <cstdlib>
 #include <time.h>
 
 #include "logging_linux.h"
@@ -22,6 +23,10 @@ uint32_t millis() {
 size_t platform_write_fn(const LogMessage *m, const char *line) {
     fprintf(stderr, "%s", line);
     return 0;
+}
+
+void alogging_platform_abort() {
+    abort();
 }
 
 #endif // !defined(ARDUINO)

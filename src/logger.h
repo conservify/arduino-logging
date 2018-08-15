@@ -2,7 +2,6 @@
 #define ALOGGING_LOGGER_H_INCLUDED
 
 #if defined(ARDUINO)
-#include <Arduino.h>
 #else // defined(ARDUINO)
 #include <string>
 #endif // defined(ARDUINO)

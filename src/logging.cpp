@@ -86,6 +86,13 @@ void logf(LogLevels level, const char *facility, const char *f, ...) {
     va_end(args);
 }
 
+void logerrorf(const char *facility, const char *f, ...) {
+    va_list args;
+    va_start(args, f);
+    vlogf(LogLevels::ERROR, facility, f, args);
+    va_end(args);
+}
+
 void logtracef(const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
