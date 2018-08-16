@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-void __cfy_assert(const char *assertion, const char *file, int line) __attribute__ ((weak));
+void __cfy_assert(const char *assertion, const char *file, int line);
 
 #ifdef __cplusplus
 }
