@@ -65,7 +65,7 @@ public:
     }
 
     LogStream& operator<<(size_t i) {
-        return printf("%zd", i);
+        return printf("%" PRIu32, (uint32_t)i);
     }
 
     #if !defined(ARDUINO)
