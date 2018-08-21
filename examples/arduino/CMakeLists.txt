@@ -1,10 +1,13 @@
-set(ARDUINO_IDE "${CMAKE_CURRENT_SOURCE_DIR}/../../../arduino-1.8.3")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../../../arduino-cmake-minimal/cmake/")
+set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH})
 
-include(ArduinoMinimal)
+include(Arduino)
 
-file(GLOB SOURCE_FILES *.cpp ../../src/*.cpp)
+enable_arduino_toolchain()
 
-arduino(alogging-example-arduino "${SOURCE_FILES}" "${LIBRARIES}")
+file(GLOB sources *.cpp ../../src/*.cpp)
+
+add_arduino_library(alogging-example-arduino ${sources})
 
 target_include_directories(alogging-example-arduino PUBLIC ./ ../../src)
+
+add_arduino_firmware(alogging-example-arduino)
