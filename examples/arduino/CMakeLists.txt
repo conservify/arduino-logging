@@ -1,5 +1,3 @@
-set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH})
-
 include(Arduino)
 
 enable_arduino_toolchain()
