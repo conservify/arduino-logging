@@ -1,6 +1,8 @@
 #ifndef ALOGGING_LOG_STREAM_H_INCLUDED
 #define ALOGGING_LOG_STREAM_H_INCLUDED
 
+#include <type_traits>
+
 #include "logging.h"
 
 #if defined(ARDUINO)
@@ -64,6 +66,7 @@ public:
         return printf("%" PRId64, i);
     }
 
+    template<class T = uint32_t, typename std::enable_if<!std::is_same<size_t, T>::value, void*>::type = nullptr>
     LogStream& operator<<(size_t i) {
         return printf("%" PRIu32, (uint32_t)i);
     }
