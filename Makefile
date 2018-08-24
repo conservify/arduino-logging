@@ -1,13 +1,13 @@
-all: cmake build test
+all: build test
 
 cmake:
 	mkdir -p build
 	cd build && cmake ../
 
-build:
+build: cmake
 	cd build && make
 
-test: cmake
+test: build
 	cd build && env GTEST_COLOR=1 make testcommon test ARGS=-VV
 
 clean:
