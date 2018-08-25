@@ -1,3 +1,4 @@
+#include "alogging/sprintf.h"
 #include "logging.h"
 #include "platform.h"
 
@@ -42,7 +43,7 @@ void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t
 
 void log_raw(const LogMessage *m) {
     char formatted[ArduinoLoggingLineMax * 2];
-    auto pos = snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
+    auto pos = alogging_snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
     auto len = strlen(m->message);
     memcpy(formatted + pos, m->message, len);
     pos += len;
@@ -73,7 +74,7 @@ void log_raw(const LogMessage *m) {
 
 void valogf(LogLevels level, const char *facility, const char *f, va_list args) {
     char message[ArduinoLoggingLineMax];
-    vsnprintf(message, ArduinoLoggingLineMax, f, args);
+    alogging_vsnprintf(message, ArduinoLoggingLineMax, f, args);
 
     LogMessage m;
     m.uptime = log_uptime_fn();

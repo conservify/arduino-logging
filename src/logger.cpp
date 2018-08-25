@@ -1,6 +1,4 @@
-#include <cstdio>
-#include <cstring>
-
+#include "alogging/sprintf.h"
 #include "log_stream.h"
 #include "logging.h"
 
@@ -22,7 +20,7 @@ LogStream& LogStream::printf(const char *f, ...) {
     va_start(args, f);
     auto remaining = (int32_t)(sizeof(message_) - position_ - 1);
     if (remaining > 0) {
-        auto appended = vsnprintf((char *)(message_ + position_), remaining, f, args);
+        auto appended = alogging_vsnprintf((char *)(message_ + position_), remaining, f, args);
         position_ += appended;
         message_[position_] = 0;
     }
