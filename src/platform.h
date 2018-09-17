@@ -21,4 +21,10 @@ using ostreamtype = LogStream;
 
 ostreamtype sdebug();
 
+ostreamtype sdebug(const char *facility);
+
+ostreamtype serror();
+
+ostreamtype serror(const char *facility);
+
 #endif // ALOGGING_PLATFORM_H_INCLUDED

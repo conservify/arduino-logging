@@ -21,10 +21,22 @@ public:
     LogStream() {
     }
 
+    LogStream(LogLevels level) : level_(level) {
+    }
+
     LogStream(const char *facility, LogLevels level = LogLevels::INFO) : facility_(facility), level_(level) {
     }
 
     ~LogStream();
+
+public:
+    LogStream warnings() const {
+        return LogStream{ facility_, LogLevels::WARN };
+    }
+
+    LogStream errors() const {
+        return LogStream{ facility_, LogLevels::ERROR };
+    }
 
 public:
     LogStream& printf(const char *f, ...) __attribute__((format(printf, 2, 3)));
