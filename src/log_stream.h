@@ -56,11 +56,9 @@ public:
         return printf("%" PRIu32, i);
     }
 
-    #if !defined(__linux__)
     LogStream& operator<<(uint64_t i) {
         return printf("%" PRIu64, i);
     }
-    #endif
 
     LogStream& operator<<(int8_t i) {
         return printf("%d", i);
@@ -76,6 +74,10 @@ public:
 
     LogStream& operator<<(int64_t i) {
         return printf("%" PRId64, i);
+    }
+
+    LogStream& operator<<(void *i) {
+        return printf("0x%p", i);
     }
 
     template<class T = uint32_t, typename std::enable_if<!std::is_same<size_t, T>::value, void*>::type = nullptr>
