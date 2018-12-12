@@ -5,10 +5,10 @@ cmake:
 	cd build && cmake ../
 
 build: cmake
-	cd build && make
+	$(MAKE) -C build
 
 test: build
-	cd build && env GTEST_COLOR=1 make testcommon test ARGS=-VV
+	env GTEST_COLOR=1 $(MAKE) -C build testcommon test ARGS=-VV
 
 clean:
 	rm -rf build
