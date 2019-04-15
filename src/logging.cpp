@@ -114,6 +114,10 @@ void loginfof(const char *facility, const char *f, ...) {
     va_end(args);
 }
 
+void loginfofv(const char *facility, const char *f, va_list args) {
+    valogf(LogLevels::INFO, facility, f, args);
+}
+
 #ifdef __cplusplus
 }
 #endif

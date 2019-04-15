@@ -57,6 +57,8 @@ void logtracef(const char *facility, const char *f, ...) __attribute__((format(p
 
 void loginfof(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
 
+void loginfofv(const char *facility, const char *f, va_list args);
+
 #ifdef __cplusplus
 }
 #endif
