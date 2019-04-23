@@ -1,19 +1,21 @@
+BUILD ?= $(abspath build)
+
 all: build test
 
 cmake:
-	mkdir -p build
-	cd build && cmake ../
+	mkdir -p $(BUILD)
+	cd $(BUILD) && cmake ../
 
 build: cmake
-	$(MAKE) -C build
+	$(MAKE) -C $(BUILD)
 
 test: build
-	env GTEST_COLOR=1 $(MAKE) -C build testcommon test ARGS=-VV
+	env GTEST_COLOR=1 $(MAKE) -C $(BUILD) testcommon test ARGS=-VV
 
 clean:
-	rm -rf build
+	rm -rf $(BUILD)
 
 veryclean:
-	rm -rf build gitdeps
+	rm -rf $(BUILD) gitdeps
 
 .PHONY: build
