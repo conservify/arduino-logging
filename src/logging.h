@@ -18,6 +18,7 @@ enum class LogLevels {
 };
 
 typedef struct LogMessage {
+    uint32_t number;
     uint32_t uptime;
     uint32_t time;
     uint8_t level;

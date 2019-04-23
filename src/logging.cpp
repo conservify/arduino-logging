@@ -17,6 +17,7 @@ static log_message_write_fn_t write_fn = platform_write_fn;
 static log_message_hook_fn_t log_hook_fn = nullptr;
 static void *log_hook_arg = nullptr;
 static bool log_hook_enabled = false;
+static uint32_t log_counter = 0;
 
 static uint32_t always_zero() {
     return 0;
@@ -43,7 +44,11 @@ void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t
 
 void log_raw(const LogMessage *m) {
     char formatted[ArduinoLoggingLineMax * 2];
+    #if defined(ARDUINO_LOGGING_INCLUDE_COUNTER)
+    auto pos = alogging_snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %04" PRIu32 " %-25s ", m->uptime, m->number, m->facility);
+    #else
     auto pos = alogging_snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
+    #endif
     auto len = strlen(m->message);
     memcpy(formatted + pos, m->message, len);
     pos += len;
@@ -78,6 +83,7 @@ void valogf(LogLevels level, const char *facility, const char *f, va_list args) 
 
     LogMessage m;
     m.uptime = log_uptime_fn();
+    m.number = log_counter++;
     m.time = log_time_fn();
     m.level = (uint8_t)level;
     m.facility = facility;
