@@ -7,9 +7,11 @@ LogStream& LogStream::print(const char *str) {
     auto remaining = sizeof(message_) - position_ - 1;
     auto length = strlen(str);
     auto copying = length > remaining ? remaining : length;
-    memcpy(message_ + position_, str, copying);
-    position_ += copying;
-    message_[position_] = 0;
+    if (copying > 0) {
+        memcpy(message_ + position_, str, copying);
+        position_ += copying;
+        message_[position_] = 0;
+    }
     #endif
     return *this;
 }
@@ -21,7 +23,12 @@ LogStream& LogStream::printf(const char *f, ...) {
     auto remaining = (int32_t)(sizeof(message_) - position_ - 1);
     if (remaining > 0) {
         auto appended = alogging_vsnprintf((char *)(message_ + position_), remaining, f, args);
-        position_ += appended;
+        if (appended >= remaining) {
+            position_ += remaining;
+        }
+        else {
+            position_ += appended;
+        }
         message_[position_] = 0;
     }
     va_end(args);

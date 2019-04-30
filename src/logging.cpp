@@ -1,6 +1,7 @@
 #include "alogging/sprintf.h"
 #include "logging.h"
 #include "platform.h"
+#include "assert.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,14 +45,22 @@ void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t
 
 void log_raw(const LogMessage *m) {
     char formatted[ArduinoLoggingLineMax * 2];
+
+    auto remaining = sizeof(formatted) - 3;
     #if defined(ARDUINO_LOGGING_INCLUDE_COUNTER)
-    auto pos = alogging_snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %04" PRIu32 " %-25s ", m->uptime, m->number, m->facility);
+    auto pos = alogging_snprintf(formatted, remaining, "%06" PRIu32 " %04" PRIu32 " %-25s ", m->uptime, m->number, m->facility);
     #else
-    auto pos = alogging_snprintf(formatted, sizeof(formatted) - 3, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
+    auto pos = alogging_snprintf(formatted, remaining, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
     #endif
-    auto len = strlen(m->message);
-    memcpy(formatted + pos, m->message, len);
-    pos += len;
+
+    // We size or local formatted buffer such that we should never have an
+    // issue, test just in case.
+    remaining -= pos;
+
+    auto length = strlen(m->message);
+    auto copying = length > remaining ? remaining : length;
+    memcpy(formatted + pos, m->message, copying);
+    pos += copying;
 
     if (formatted[pos - 1] != '\r' && formatted[pos - 1] != '\n') {
         #if defined(ARDUINO_LOGGING_INCLUDE_CR)
