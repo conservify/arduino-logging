@@ -2,7 +2,6 @@
 #define ALOGGING_LOGGING_H_INCLUDED
 
 #include <cinttypes>
-//#include <cstring>
 #include <cstddef>
 #include <cstdarg>
 #include <cstdio>
