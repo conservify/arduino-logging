@@ -38,6 +38,10 @@ public:
         return LogStream{ facility_, LogLevels::ERROR };
     }
 
+    LogStream trace() const {
+        return LogStream{ facility_, LogLevels::TRACE };
+    }
+
 public:
     LogStream& printf(const char *f, ...) __attribute__((format(printf, 2, 3)));
     LogStream& print(const char *str);
