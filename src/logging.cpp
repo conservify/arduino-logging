@@ -20,12 +20,20 @@ static void *log_hook_arg = nullptr;
 static bool log_hook_enabled = false;
 static uint32_t log_counter = 0;
 
+static const char *log_format = "%06" PRIu32 " %-25s ";
+static bool log_show_counter = false;
+
 static uint32_t always_zero() {
     return 0;
 }
 
 void log_configure_writer(log_message_write_fn_t new_fn) {
     write_fn = new_fn;
+}
+
+void log_configure_formatting(const char *format, bool enable_counter) {
+    log_format = format;
+    log_show_counter = enable_counter;
 }
 
 void log_configure_hook_register(log_message_hook_fn_t hook, void *arg) {
@@ -45,13 +53,15 @@ void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t
 
 void log_raw(const LogMessage *m) {
     char formatted[ArduinoLoggingLineMax * 2];
-
     auto remaining = sizeof(formatted) - 3;
-    #if defined(ARDUINO_LOGGING_INCLUDE_COUNTER)
-    auto pos = alogging_snprintf(formatted, remaining, "%06" PRIu32 " %04" PRIu32 " %-25s ", m->uptime, m->number, m->facility);
-    #else
-    auto pos = alogging_snprintf(formatted, remaining, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
-    #endif
+    auto pos = 0;
+
+    if (log_show_counter) {
+        pos = alogging_snprintf(formatted, remaining, log_format, m->uptime, m->number, m->facility);
+    }
+    else {
+        pos = alogging_snprintf(formatted, remaining, log_format, m->uptime, m->facility);
+    }
 
     // We size or local formatted buffer such that we should never have an
     // issue, test just in case.
