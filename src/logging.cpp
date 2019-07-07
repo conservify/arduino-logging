@@ -19,6 +19,7 @@ static log_message_hook_fn_t log_hook_fn = nullptr;
 static void *log_hook_arg = nullptr;
 static bool log_hook_enabled = false;
 static uint32_t log_counter = 0;
+static uint8_t log_level = (uint8_t)LogLevels::INFO;
 
 static const char *log_format = "%06" PRIu32 " %-25s ";
 static bool log_show_counter = false;
@@ -44,6 +45,22 @@ void log_configure_hook_register(log_message_hook_fn_t hook, void *arg) {
 
 void log_configure_hook(bool enabled) {
     log_hook_enabled = enabled;
+}
+
+void log_configure_level(LogLevels level) {
+    log_level = (uint8_t)level;
+}
+
+uint8_t log_get_level(void) {
+    return log_level;
+}
+
+bool log_is_trace(void) {
+    return log_level >= (uint8_t)LogLevels::TRACE;
+}
+
+bool log_is_debug(void) {
+    return log_level >= (uint8_t)LogLevels::DEBUG;
 }
 
 void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t time_fn) {
@@ -97,6 +114,10 @@ void log_raw(const LogMessage *m) {
 }
 
 void valogf(LogLevels level, const char *facility, const char *f, va_list args) {
+    if ((uint8_t)level < log_get_level()) {
+        return;
+    }
+
     char message[ArduinoLoggingLineMax];
     alogging_vsnprintf(message, ArduinoLoggingLineMax, f, args);
 

@@ -8,7 +8,7 @@
 
 constexpr size_t ArduinoLoggingLineMax = 255;
 
-enum class LogLevels {
+enum class LogLevels : uint8_t {
     TRACE,
     DEBUG,
     INFO,
@@ -44,6 +44,14 @@ void log_configure_hook_register(log_message_hook_fn_t hook, void *arg);
 void log_configure_hook(bool enabled);
 
 void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t time_fn);
+
+void log_configure_level(LogLevels level);
+
+uint8_t log_get_level(void);
+
+bool log_is_trace(void);
+
+bool log_is_debug(void);
 
 void log_raw(const LogMessage *m);
 
