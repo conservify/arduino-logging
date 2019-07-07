@@ -51,7 +51,7 @@ LogStream::~LogStream() {
 LogStream& LogStream::flush() {
     #if !defined(ARDUINO_LOGGING_DISABLE)
     if (position_ > 0) {
-        alogf(LogLevels::INFO, facility_, "%s", message_);
+        alogs(LogLevels::INFO, facility_, (const char *)message_);
         position_ = 0;
     }
     #endif

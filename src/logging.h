@@ -25,9 +25,9 @@ typedef struct LogMessage {
     const char *message;
 } LogMessage;
 
-typedef size_t (*log_message_write_fn_t)(const LogMessage *m, const char *line);
+typedef size_t (*log_message_write_fn_t)(const LogMessage *m, const char *fstring, va_list args);
 
-typedef size_t (*log_message_hook_fn_t)(const LogMessage *m, const char *formatted, void *arg);
+typedef size_t (*log_message_hook_fn_t)(const LogMessage *m, const char *fstring, va_list args, void *arg);
 
 typedef uint32_t (*log_message_time_fn_t)();
 
@@ -53,9 +53,11 @@ bool log_is_trace(void);
 
 bool log_is_debug(void);
 
-void log_raw(const LogMessage *m);
+void log_raw(const LogMessage *m, const char *fstring, va_list args);
 
 void valogf(LogLevels level, const char *facility, const char *f, va_list args);
+
+void alogs(LogLevels level, const char *facility, const char *str);
 
 void alogf(LogLevels level, const char *facility, const char *f, ...) __attribute__((format(printf, 3, 4)));
 

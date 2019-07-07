@@ -13,9 +13,25 @@ public:
     }
 };
 
-static size_t LogMessageHook(const LogMessage *m, const char *formatted, void *arg) {
+static size_t LogMessageHook(const LogMessage *m, const char *fstring, va_list args, void *arg) {
+    char buffer[256] = { 0 };
+
+    va_list copy;
+    va_copy(copy, args);
+
+    auto prefix = snprintf(buffer, sizeof(buffer) - 1, "%06" PRIu32 " %-25s ", m->uptime, m->facility);
+    auto full = vsnprintf(buffer + prefix, sizeof(buffer) - 1 - prefix, fstring, copy);
+    if (prefix + full + 1 >= sizeof(buffer)) {
+        buffer[sizeof(buffer) - 2] = '\n';
+        buffer[sizeof(buffer) - 1] = 0;
+    }
+    else {
+        buffer[prefix + full] = '\n';
+        buffer[prefix + full + 1] = 0;
+    }
+
     std::vector<std::string> *messages = (std::vector<std::string> *)arg;
-    messages->emplace_back(formatted);
+    messages->emplace_back(buffer);
     return 0;
 }
 
@@ -88,7 +104,7 @@ TEST_F(LoggingSuite, TooLongMessage) {
     }
 
     EXPECT_EQ(messages.size(), 1);
-    EXPECT_EQ(messages[0], "000000 Root                      JacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJac\n");
+    EXPECT_EQ(messages[0], "000000 Root                      JacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJacobJ\n");
 }
 
 TEST_F(LoggingSuite, Sdebug) {

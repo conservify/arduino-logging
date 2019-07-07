@@ -17,15 +17,16 @@ uint32_t millis() {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
     auto now  = (uint64_t)ts.tv_sec * (uint64_t)1000 + (uint64_t)(ts.tv_nsec / 1000000L);
-    // NOTE: This isn't "Correct" because this sets epoch to the time of the first call.
     if (epoch == 0) {
         epoch = now;
     }
     return (uint32_t)(now - epoch);
 }
 
-size_t platform_write_fn(const LogMessage *m, const char *line) {
-    fprintf(stderr, "%s", line);
+size_t platform_write_fn(const LogMessage *m, const char *fstring, va_list args) {
+    fprintf(stderr, "%08" PRIu32 " %s: ", m->uptime, m->facility);
+    vfprintf(stderr, fstring, args);
+    fprintf(stderr, "\n");
     return 0;
 }
 
