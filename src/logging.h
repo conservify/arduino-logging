@@ -69,6 +69,8 @@ void loginfof(const char *facility, const char *f, ...) __attribute__((format(pr
 
 void loginfofv(const char *facility, const char *f, va_list args);
 
+const char *alog_get_log_level(LogLevels level);
+
 #ifdef __cplusplus
 }
 #endif

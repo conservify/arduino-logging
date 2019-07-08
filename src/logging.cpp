@@ -127,6 +127,17 @@ void loginfofv(const char *facility, const char *f, va_list args) {
     valogf(LogLevels::INFO, facility, f, args);
 }
 
+const char *alog_get_log_level(LogLevels level) {
+    switch (level) {
+    case LogLevels::INFO: return "info";
+    case LogLevels::TRACE: return "trace";
+    case LogLevels::DEBUG: return "debug";
+    case LogLevels::WARN: return "warn";
+    case LogLevels::ERROR: return "error";
+    default: return "unknown";
+    }
+}
+
 #ifdef __cplusplus
 }
 #endif
