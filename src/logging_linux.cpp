@@ -23,10 +23,20 @@ uint32_t millis() {
     return (uint32_t)(now - epoch);
 }
 
+#define COLOR_YELLOW "\033[0;33m"
+#define COLOR_GREEN  "\033[0;32m"
+#define COLOR_RED    "\033[0;31m"
+#define COLOR_RESET  "\033[0m"
+
 size_t platform_write_fn(const LogMessage *m, const char *fstring, va_list args) {
-    fprintf(stderr, "%08" PRIu32 " %s: ", m->uptime, m->facility);
+    if ((LogLevels)m->level == LogLevels::ERROR) {
+        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_RED " %s: ", m->uptime, m->facility);
+    }
+    else {
+        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_YELLOW " %s" COLOR_RESET ": ", m->uptime, m->facility);
+    }
     vfprintf(stderr, fstring, args);
-    fprintf(stderr, "\n");
+    fprintf(stderr, COLOR_RESET "\n");
     return 0;
 }
 
