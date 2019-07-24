@@ -9,6 +9,7 @@
 constexpr size_t ArduinoLoggingLineMax = 255;
 
 enum class LogLevels : uint8_t {
+    VERBOSE,
     TRACE,
     DEBUG,
     INFO,

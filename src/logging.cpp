@@ -134,6 +134,7 @@ const char *alog_get_log_level(LogLevels level) {
     case LogLevels::DEBUG: return "debug";
     case LogLevels::WARN: return "warn";
     case LogLevels::ERROR: return "error";
+    case LogLevels::VERBOSE: return "verbose";
     default: return "unknown";
     }
 }
