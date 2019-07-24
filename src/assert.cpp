@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 void __cfy_assert(const char *assertion, const char *file, int line) {
-    logerrorf("Assertion", "Assertion \"%s\" failed: file \"%s\", line %d", assertion, file, line);
+    logerrorf("assertion", "\"%s\" failed: file \"%s\", line %d", assertion, file, line);
     alogging_platform_abort();
     /* NOTREACHED */
 }
