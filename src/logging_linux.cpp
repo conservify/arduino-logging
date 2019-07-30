@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <time.h>
+#include <string.h>
 
 #include "logging_linux.h"
 #include "logging.h"
@@ -37,7 +38,10 @@ size_t platform_write_fn(const LogMessage *m, const char *fstring, va_list args)
         fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_YELLOW " %-6s %s" COLOR_RESET ": ", m->uptime, level, m->facility);
     }
     vfprintf(stderr, fstring, args);
-    fprintf(stderr, COLOR_RESET "\n");
+    auto l = strlen(fstring);
+    if (fstring[l - 1] != '\n') {
+        fprintf(stderr, COLOR_RESET "\n");
+    }
     return 0;
 }
 
