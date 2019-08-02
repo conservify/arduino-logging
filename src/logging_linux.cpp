@@ -1,4 +1,4 @@
-#if !defined(ARDUINO)
+#if defined(linux)
 
 #include <cstdio>
 #include <cstdlib>
