@@ -6,6 +6,8 @@ LoggingSuite::LoggingSuite() {
 LoggingSuite::~LoggingSuite() {
 };
 
+using namespace alogging;
+
 class Example {
 public:
     friend LogStream& operator<<(LogStream &log, const Example &example) {

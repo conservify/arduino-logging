@@ -15,8 +15,6 @@ void alogging_platform_abort();
 }
 #endif
 
-constexpr char endl = '\n';
-
 using ostreamtype = LogStream;
 
 ostreamtype sdebug();
@@ -26,5 +24,11 @@ ostreamtype sdebug(const char *facility);
 ostreamtype serror();
 
 ostreamtype serror(const char *facility);
+
+namespace alogging {
+
+constexpr char endl = '\n';
+
+}
 
 #endif // ALOGGING_PLATFORM_H_INCLUDED
