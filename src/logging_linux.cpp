@@ -32,10 +32,10 @@ uint32_t millis() {
 size_t platform_write_fn(const LogMessage *m, const char *fstring, va_list args) {
     auto level = alog_get_log_level((LogLevels)m->level);
     if ((LogLevels)m->level == LogLevels::ERROR) {
-        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_RED " %-6s %s: ", m->uptime, level, m->facility);
+        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_RED " %-7s %s: ", m->uptime, level, m->facility);
     }
     else {
-        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_YELLOW " %-6s %s" COLOR_RESET ": ", m->uptime, level, m->facility);
+        fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_YELLOW " %-7s %s" COLOR_RESET ": ", m->uptime, level, m->facility);
     }
     vfprintf(stderr, fstring, args);
     auto l = strlen(fstring);
