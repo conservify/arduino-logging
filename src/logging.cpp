@@ -48,11 +48,11 @@ uint8_t log_get_level(void) {
 }
 
 bool log_is_trace(void) {
-    return log_level >= (uint8_t)LogLevels::TRACE;
+    return log_level <= (uint8_t)LogLevels::TRACE;
 }
 
 bool log_is_debug(void) {
-    return log_level >= (uint8_t)LogLevels::DEBUG;
+    return log_level <= (uint8_t)LogLevels::DEBUG;
 }
 
 void log_configure_time(log_message_uptime_fn_t uptime_fn, log_message_time_fn_t time_fn) {
