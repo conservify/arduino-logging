@@ -7,7 +7,11 @@
 
 #if !defined(ARDUINO_LOGGING_DISABLE)
 
-static Stream *log_uart = &Serial;
+#if defined(SERIAL_PORT_USBVIRTUAL)
+static Stream *log_uart = &SERIAL_PORT_USBVIRTUAL;
+#else
+static Stream *log_uart = nullptr;
+#endif
 
 void log_uart_set(Stream &standardOut) {
     log_uart = &standardOut;
@@ -22,7 +26,9 @@ extern "C" {
 #endif
 
 size_t platform_write_fn(const LogMessage *m, const char *line) {
-    log_uart->print(line);
+    if (log_uart != nullptr) {
+        log_uart->print(line);
+    }
     return 0;
 }
 
