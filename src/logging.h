@@ -15,6 +15,7 @@ enum class LogLevels : uint8_t {
     INFO,
     WARN,
     ERROR,
+    NONE,
 };
 
 typedef struct LogMessage {
