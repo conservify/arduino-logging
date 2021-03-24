@@ -18,4 +18,4 @@ clean:
 veryclean:
 	rm -rf $(BUILD) gitdeps
 
-.PHONY: build
+.PHONY: build cmake
