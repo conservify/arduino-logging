@@ -24,6 +24,7 @@ typedef struct LogMessage {
     uint32_t time;
     uint8_t level;
     const char *facility;
+    const char *scope;
     const char *message;
 } LogMessage;
 
@@ -59,9 +60,13 @@ void log_raw(const LogMessage *m, const char *fstring, va_list args);
 
 void valogf(LogLevels level, const char *facility, const char *f, va_list args);
 
+void valogfs(LogLevels level, const char *facility, const char *scope, const char *f, va_list args);
+
 void alogs(LogLevels level, const char *facility, const char *str);
 
 void alogf(LogLevels level, const char *facility, const char *f, ...) __attribute__((format(printf, 3, 4)));
+
+void alogfs(LogLevels level, const char *facility, const char *scope, const char *f, ...) __attribute__((format(printf, 4, 5)));
 
 void logerrorf(const char *facility, const char *f, ...) __attribute__((format(printf, 2, 3)));
 

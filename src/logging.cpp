@@ -75,6 +75,10 @@ void log_raw(const LogMessage *m, const char *fstring, va_list args) {
 }
 
 void valogf(LogLevels level, const char *facility, const char *f, va_list args) {
+    return valogfs(level, facility, "", f, args);
+}
+
+void valogfs(LogLevels level, const char *facility, const char *scope, const char *f, va_list args) {
     if ((uint8_t)level < log_get_level()) {
         return;
     }
@@ -85,6 +89,7 @@ void valogf(LogLevels level, const char *facility, const char *f, va_list args) 
     m.time = log_time_fn();
     m.level = (uint8_t)level;
     m.facility = facility;
+    m.scope = scope;
     m.message = nullptr;
 
     log_raw(&m, f, args);
@@ -99,6 +104,13 @@ void alogf(LogLevels level, const char *facility, const char *f, ...) {
     va_list args;
     va_start(args, f);
     valogf(level, facility, f, args);
+    va_end(args);
+}
+
+void alogfs(LogLevels level, const char *facility, const char *scope, const char *f, ...) {
+    va_list args;
+    va_start(args, f);
+    valogfs(level, facility, scope, f, args);
     va_end(args);
 }
 
@@ -142,4 +154,3 @@ const char *alog_get_log_level(LogLevels level) {
 #ifdef __cplusplus
 }
 #endif
-

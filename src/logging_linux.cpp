@@ -37,6 +37,7 @@ size_t platform_write_fn(const LogMessage *m, const char *fstring, va_list args)
     else {
         fprintf(stderr, COLOR_GREEN "%08" PRIu32 COLOR_YELLOW " %-7s %s" COLOR_RESET ": ", m->uptime, level, m->facility);
     }
+    fprintf(stderr, "%s", m->scope);
     vfprintf(stderr, fstring, args);
     auto l = strlen(fstring);
     if (fstring[l - 1] != '\n') {

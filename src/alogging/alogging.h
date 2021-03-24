@@ -7,5 +7,6 @@
 #include "../logging_arduino.h"
 #include "../assert.h"
 #include "../platform.h"
+#include "../task_stack.h"
 
 #endif // ALOGGING_ALOGGING_H_INCLUDED
