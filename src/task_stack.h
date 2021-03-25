@@ -17,7 +17,7 @@ public:
     task_stack(size_t size);
 
 public:
-    void push(const char *name);
+    int32_t push(const char *name);
     void pop();
 
 public:
@@ -36,17 +36,15 @@ public:
     logged_task(const char *name, const char *thing) {
         auto tasks = get_task_stack();
         if (tasks != nullptr) {
-            tasks->push(name);
-            tasks->push(thing);
-            pops_ = 2;
+            pops_  = tasks->push(name);
+            pops_ += tasks->push(thing);
         }
     }
 
     logged_task(const char *name) {
         auto tasks = get_task_stack();
         if (tasks != nullptr) {
-            tasks->push(name);
-            pops_ = 1;
+            pops_ = tasks->push(name);
         }
     }
 
